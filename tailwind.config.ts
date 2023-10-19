@@ -13,6 +13,15 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      keyframes: {
+        activeLink: {
+          '0%': { backgroundColor: 'none' },
+          '100%': { backgroundColor: '#374151' },
+        },
+      },
+      animation: {
+        activeLink: 'activeLink 0.3s ease-in-out forwards',
+      },
     },
   },
   plugins: [],
