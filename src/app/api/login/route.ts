@@ -1,30 +1,30 @@
-import { prisma } from '@/lib/prisma'
 import { loginSchema } from '@/schemas'
+import { CollaboratorService } from '@/services'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
+  const headers = new Headers()
   const requestBody = await req.json()
-  console.log(requestBody)
 
   const url = req.nextUrl.clone()
   url.pathname = '/dashboard'
 
   const result = loginSchema.safeParse(requestBody)
 
-  console.log(result)
-
   if (result.success) {
     const { email, password } = result.data
-    const collaborator = await prisma.collaborator.findUnique({
-      where: { email },
-    })
+    const collaborator = await CollaboratorService.getCollaboratorByEmail(email)
 
-    if (collaborator?.senha === password) {
+    if (collaborator?.password === password) {
+      headers.append('Set-Cookie', `id=${collaborator.id}; Path=/; HttpOnly`)
+      headers.append(
+        'Set-Cookie',
+        `manager=${+collaborator.manager}; Path=/; HttpOnly`,
+      )
+
       return NextResponse.redirect(url, {
         status: 301,
-        headers: {
-          'Set-Cookie': `id=${collaborator.id}; Path=/; HttpOnly`,
-        },
+        headers,
       })
     }
 
