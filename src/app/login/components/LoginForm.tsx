@@ -21,9 +21,7 @@ export function LoginForm() {
     setError,
   } = methods
 
-  async function loginUser(data: LoginFormValues) {
-    console.log(data)
-
+  async function loginCollaborator(data: LoginFormValues) {
     const response = await fetch('/api/login', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -51,7 +49,7 @@ export function LoginForm() {
     <FormProvider {...methods}>
       <Form.Wrapper>
         <Form.Title>Login</Form.Title>
-        <Form.Root onSubmit={handleSubmit(loginUser)}>
+        <Form.Root onSubmit={handleSubmit(loginCollaborator)}>
           <Form.Inputs>
             <Form.Input type="email" name="email" error={errors.email?.message}>
               Email
