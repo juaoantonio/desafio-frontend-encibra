@@ -6,13 +6,20 @@ import { usePathname, useRouter } from 'next/navigation'
 export function ActiveLink({
   children,
   href,
+  exact = false,
 }: {
   children: React.ReactNode
   href: string
+  exact?: boolean
 }) {
   const router = useRouter()
   const pathname = usePathname()
-  const activeStyle = pathname === href ? 'animate-activeLink' : ''
+
+  let activeStyle = pathname.startsWith(href) ? 'animate-activeLink' : ''
+
+  if (exact) {
+    activeStyle = pathname === href ? 'animate-activeLink' : ''
+  }
 
   function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
     e.preventDefault()

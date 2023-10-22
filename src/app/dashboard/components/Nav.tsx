@@ -4,7 +4,7 @@ import { ActiveLink } from './ActiveLink'
 export function Nav() {
   return (
     <nav className="flex flex-col gap-10 items-center">
-      <ActiveLink href="/dashboard">
+      <ActiveLink href="/dashboard" exact>
         <Home className="stroke-gray-50" width={32} height={32} />
       </ActiveLink>
       <ActiveLink href="/dashboard/colaboradores">
