@@ -8,6 +8,6 @@ export const loginSchema = z.object({
   password: z.string().min(1, 'Senha é obrigatória'),
 })
 
-export const getUsersParamsSchema = z.object({
+export const getAllCollaboratorsParamsSchema = z.object({
   current: z.coerce.number().int().min(0).max(1).optional().default(0),
 })

@@ -1,10 +1,10 @@
-import { getUsersParamsSchema } from '@/schemas'
+import { getAllCollaboratorsParamsSchema } from '@/schemas'
 import { CollaboratorService } from '@/services'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
-  const result = getUsersParamsSchema.safeParse(searchParams)
+  const result = getAllCollaboratorsParamsSchema.safeParse(searchParams)
   const userId = req.cookies.get('id')?.value
 
   if (!userId) {
@@ -28,8 +28,10 @@ export async function GET(req: NextRequest) {
   const { current } = result.data
 
   if (!current) {
-    const collaborators =
-      await CollaboratorService.getCollaboratorWithoutCurrent(+userId, true)
+    const collaborators = await CollaboratorService.getAllWithoutCurrent(
+      +userId,
+      true,
+    )
 
     return NextResponse.json(
       {
@@ -39,7 +41,7 @@ export async function GET(req: NextRequest) {
     )
   }
 
-  const collaborators = await CollaboratorService.getCollaborators()
+  const collaborators = await CollaboratorService.getAll()
 
   return NextResponse.json(
     {
