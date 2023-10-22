@@ -10,50 +10,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Address {
-  id          Int            @id @default(autoincrement())
-  rua         String
-  numero      String
-  cidade      String
-  estado      String
-  cep         String
-  colaborator Collaborator[]
+enum fieldsOfWork {
+  BACKEND
+  FRONTEND
+  DEVOPS
+  DESIGN
+  MANAGEMENT
+  REQUIREMENTS
+}
+
+enum employmentType {
+  CLT
+  PJ
 }
 
 model Collaborator {
-  id                 Int      @id @default(autoincrement())
-  nome               String
-  idade              Int
-  genero             String
-  email              String   @unique
-  telefone           String
-  area_atuacao       String[]
-  regime_contratacao String
-  gestor             Boolean
-  salario            Float
-  senha              String
-  enderecoId         Int
-  endereco           Address  @relation(fields: [enderecoId], references: [id])
+  id             Int              @id @default(autoincrement())
+  name           String
+  age            Int
+  gender         String
+  email          String           @unique
+  phone          String
+  fieldOfWork    fieldsOfWork[]
+  employmentType employmentType[]
+  manager        Boolean
+  salary         Float
+  password       String
+  imgUrl         String
 
   projects Project[]
 
-  manager_projects  Project[] @relation("Manager Collaborator")
-  backend_projects  Project[] @relation("Backend Collaborator")
-  frontend_projects Project[] @relation("Frontend Collaborator")
+  managerProjects  Project[] @relation("Manager Collaborator")
+  backendProjects  Project[] @relation("Backend Collaborator")
+  frontendProjects Project[] @relation("Frontend Collaborator")
 }
 
 model Project {
-  id                       Int          @id @default(autoincrement())
-  nome                     String
-  prazo                    String
-  descricao                String
-  tecnologias              String[]
-  project_manager_id       Int
-  backend_collaborator_id  Int
-  frontend_collaborator_id Int
-  project_manager          Collaborator @relation("Manager Collaborator", fields: [project_manager_id], references: [id])
-  backend_collaborator     Collaborator @relation("Backend Collaborator", fields: [backend_collaborator_id], references: [id])
-  frontend_collaborator    Collaborator @relation("Frontend Collaborator", fields: [frontend_collaborator_id], references: [id])
+  id                     Int          @id @default(autoincrement())
+  name                   String       @unique
+  deadline               String
+  description            String
+  technologies           String[]
+  projectManagerId       Int
+  backendCollaboratorId  Int
+  frontendCollaboratorId Int
+  projectManager         Collaborator @relation("Manager Collaborator", fields: [projectManagerId], references: [id])
+  backendCollaborator    Collaborator @relation("Backend Collaborator", fields: [backendCollaboratorId], references: [id])
+  frontendCollaborator   Collaborator @relation("Frontend Collaborator", fields: [frontendCollaboratorId], references: [id])
 
   collaborators Collaborator[]
 }
