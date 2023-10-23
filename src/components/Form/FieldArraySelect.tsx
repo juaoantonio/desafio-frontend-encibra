@@ -7,10 +7,19 @@ type FieldArrayProps = {
   label: string
   options: string[]
   type?: string
+  defaultValue?: string
 }
 
-export function FieldArraySelect({ name, label, options }: FieldArrayProps) {
-  const { control } = useFormContext()
+export function FieldArraySelect({
+  name,
+  label,
+  options,
+  defaultValue,
+}: FieldArrayProps) {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext()
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -41,7 +50,7 @@ export function FieldArraySelect({ name, label, options }: FieldArrayProps) {
 
       <button
         type="button"
-        onClick={() => append('')}
+        onClick={() => append(defaultValue || '')}
         className="flex items-center gap-2 bg-gray-800 text-gray-50 rounded-md px-4 py-2 mt-4"
       >
         Adicionar

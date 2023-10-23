@@ -66,6 +66,22 @@ export async function fetchProjectById(
   return project
 }
 
+export async function fetchCollaboratorById(id: number): Promise<Collaborator> {
+  const Cookies = cookies()
+    .getAll()
+    .map((cookie) => `${cookie.name}=${cookie.value}`)
+
+  const response = await fetch(process.env.URL + `/api/collaborators/${id}/`, {
+    cache: 'no-cache',
+    headers: {
+      Cookie: Cookies.join(';'),
+    },
+  })
+
+  const collaborator = await response.json().then((data) => data.collaborator)
+  return collaborator
+}
+
 export function isManager() {
   const cookieStore = cookies()
   const isManager = !!Number(cookieStore.get('manager')?.value)

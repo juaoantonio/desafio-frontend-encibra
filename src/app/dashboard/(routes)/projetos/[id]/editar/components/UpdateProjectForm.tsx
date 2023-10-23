@@ -138,44 +138,75 @@ export function UpdateProjectForm({
             />
 
             <div className="space-y-8">
-              <Form.FieldArraySelect
-                name="frontendCollaborators"
-                label="Colaboradores Frontend"
-                options={allCollaborators
-                  .filter((collaborator) =>
-                    collaborator.fieldOfWork.includes('FRONTEND'),
-                  )
-                  .map((collaborator) => collaborator.email)}
-              />
+              <div>
+                <Form.FieldArraySelect
+                  name="frontendCollaborators"
+                  label="Colaboradores Frontend"
+                  options={allCollaborators
+                    .filter((collaborator) =>
+                      collaborator.fieldOfWork.includes('FRONTEND'),
+                    )
+                    .map((collaborator) => collaborator.email)}
+                />
+                {errors.frontendCollaborators && (
+                  <span className="text-red-500 text-sm block mt-2">
+                    {errors.frontendCollaborators?.root?.message}
+                  </span>
+                )}
+              </div>
 
-              <Form.FieldArraySelect
-                name="backendCollaborators"
-                label="Colaboradores Backend"
-                options={allCollaborators
-                  .filter((collaborator) =>
-                    collaborator.fieldOfWork.includes('BACKEND'),
-                  )
-                  .map((collaborator) => collaborator.email)}
-              />
-              <Form.FieldArraySelect
-                name="managerCollaborators"
-                label="Gestores"
-                options={allCollaborators
-                  .filter((collaborator) => collaborator.manager)
-                  .map((collaborator) => collaborator.email)}
-              />
-              <Form.FieldArraySelect
-                name="collaborators"
-                label="Outros Colaboradores"
-                options={allCollaborators
-                  .filter(
-                    (collaborator) =>
-                      !collaborator.fieldOfWork.includes('BACKEND') &&
-                      !collaborator.fieldOfWork.includes('FRONTEND') &&
-                      !collaborator.manager,
-                  )
-                  .map((collaborator) => collaborator.email)}
-              />
+              <div>
+                <Form.FieldArraySelect
+                  name="backendCollaborators"
+                  label="Colaboradores Backend"
+                  options={allCollaborators
+                    .filter((collaborator) =>
+                      collaborator.fieldOfWork.includes('BACKEND'),
+                    )
+                    .map((collaborator) => collaborator.email)}
+                />
+
+                {errors.backendCollaborators && (
+                  <span className="text-red-500 text-sm block mt-2">
+                    {errors.backendCollaborators?.root?.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <Form.FieldArraySelect
+                  name="managerCollaborators"
+                  label="Gestores"
+                  options={allCollaborators
+                    .filter((collaborator) => collaborator.manager)
+                    .map((collaborator) => collaborator.email)}
+                />
+                {errors.managerCollaborators && (
+                  <span className="text-red-500 text-sm block mt-2">
+                    {errors.managerCollaborators?.root?.message}
+                  </span>
+                )}
+              </div>
+              <div>
+                <Form.FieldArraySelect
+                  name="collaborators"
+                  label="Outros Colaboradores"
+                  options={allCollaborators
+                    .filter(
+                      (collaborator) =>
+                        !collaborator.fieldOfWork.includes('BACKEND') &&
+                        !collaborator.fieldOfWork.includes('FRONTEND') &&
+                        !collaborator.manager,
+                    )
+                    .map((collaborator) => collaborator.email)}
+                />
+
+                {errors.collaborators && (
+                  <span className="text-red-500 text-sm block mt-2">
+                    {errors.collaborators?.root?.message}
+                  </span>
+                )}
+              </div>
             </div>
           </Form.Inputs>
 

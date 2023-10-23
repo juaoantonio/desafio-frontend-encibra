@@ -1,12 +1,13 @@
 'use client'
 
 import { Form } from '@/components/Form'
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { CollaboratorSchema } from '@/schemas/collaborator'
-import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Collaborator } from '@prisma/client'
+import { X, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { Plus, X } from 'lucide-react'
+import { useForm, FormProvider } from 'react-hook-form'
+import { z } from 'zod'
 
 type CollaboratorFormProps = z.infer<typeof CollaboratorSchema>
 
@@ -29,7 +30,7 @@ const formFields: FormField[] = [
   },
   {
     name: 'password',
-    type: 'password',
+    type: 'text',
     label: 'Senha',
   },
   {
@@ -64,34 +65,35 @@ const formFields: FormField[] = [
   },
 ]
 
-export function CreateCollaboratorForm() {
+export function UpdateCollaboratorForm({
+  actualCollaborator,
+}: {
+  actualCollaborator: Collaborator
+}) {
   const router = useRouter()
 
   const methods = useForm<CollaboratorFormProps>({
     resolver: zodResolver(CollaboratorSchema),
+    defaultValues: actualCollaborator,
   })
 
   const {
     handleSubmit,
     formState: { errors },
     setError,
-    control,
+    getValues,
   } = methods
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'fieldOfWork',
-  } as { name: any; control: any })
+  async function updateCollaborator(data: CollaboratorFormProps) {
+    console.log(data)
 
-  function addNewTag() {
-    append('')
-  }
-
-  async function createCollaborator(data: any) {
-    const response = await fetch('/api/collaborators', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
+    const response = await fetch(
+      `/api/collaborators/${actualCollaborator.id}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      },
+    )
     const errorResponse = await response.json()
 
     if (!response.ok) {
@@ -108,8 +110,8 @@ export function CreateCollaboratorForm() {
   return (
     <FormProvider {...methods}>
       <Form.Wrapper className="max-w-xl">
-        <Form.Title>Criar novo colaborador</Form.Title>
-        <Form.Root onSubmit={handleSubmit(createCollaborator)}>
+        <Form.Title>Editar colaborador</Form.Title>
+        <Form.Root onSubmit={handleSubmit(updateCollaborator)}>
           <Form.Inputs>
             {formFields.map((field) => (
               <Form.Input
@@ -139,44 +141,26 @@ export function CreateCollaboratorForm() {
               )}
             </div>
 
-            <div className="">
-              <label className="block text-gray-800 font-medium">
-                Áreas de Atuação:
-              </label>
-
-              <div>
-                {fields.map((field, index) => (
-                  <div key={field.id} className="flex gap-4">
-                    <Form.SelectInput
-                      name={`fieldOfWork.${index}`}
-                      options={[
-                        'BACKEND',
-                        'FRONTEND',
-                        'DEVOPS',
-                        'DESIGN',
-                        'MANAGEMENT',
-                        'REQUIREMENTS',
-                      ]}
-                      className="flex-1"
-                    />
-                    <button onClick={() => remove(index)} type="button">
-                      <X
-                        width={24}
-                        height={24}
-                        className="bg-red-500 stroke-gray-100 rounded-full"
-                      />
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              <button
-                onClick={addNewTag}
-                type="button"
-                className="py-1 px-4 bg-gray-950 rounded-md mt-4"
-              >
-                <Plus width={32} height={32} className="stroke-gray-100" />
-              </button>
+            <div>
+              <Form.FieldArraySelect
+                name="fieldOfWork"
+                label="Área(s) de atuação"
+                type="text"
+                options={[
+                  'BACKEND',
+                  'FRONTEND',
+                  'DEVOPS',
+                  'DESIGN',
+                  'MANAGEMENT',
+                  'REQUIREMENTS',
+                ]}
+                defaultValue={'BACKEND'}
+              />
+              {errors.fieldOfWork && (
+                <span className="text-red-500 text-sm block mt-2">
+                  {errors.fieldOfWork?.root?.message}
+                </span>
+              )}
             </div>
           </Form.Inputs>
           <hr />
@@ -186,7 +170,7 @@ export function CreateCollaboratorForm() {
             </p>
           )}
 
-          <Form.Button>Criar</Form.Button>
+          <Form.Button>Atualizar</Form.Button>
         </Form.Root>
       </Form.Wrapper>
     </FormProvider>

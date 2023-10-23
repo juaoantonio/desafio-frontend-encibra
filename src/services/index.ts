@@ -59,9 +59,24 @@ class collaboratorService {
       }
     }
 
+    const resultData = result.data
+
     const updatedCollaborator = await prisma.collaborator.update({
       where: { id },
-      data,
+      data: {
+        name: resultData.name,
+        email: resultData.email,
+        password: resultData.password,
+        manager: resultData.manager,
+        address: resultData.address,
+        phone: resultData.phone,
+        salary: resultData.salary,
+        gender: resultData.gender,
+        imgUrl: resultData.imgUrl,
+        age: resultData.age,
+        employmentType: resultData.employmentType,
+        fieldOfWork: resultData.fieldOfWork,
+      },
     })
 
     return {
