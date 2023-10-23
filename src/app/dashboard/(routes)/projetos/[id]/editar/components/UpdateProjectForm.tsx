@@ -3,13 +3,18 @@
 import { Form } from '@/components/Form'
 import { ProjectSchema } from '@/schemas/project'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Collaborator } from '@prisma/client'
+import { Collaborator, Project } from '@prisma/client'
 import { useRouter } from 'next/navigation'
 import router from 'next/router'
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+type ProjectWithCollaborators = Project & {
+  collaborators: Collaborator[]
+}
+
 type ProjectFormProps = z.infer<typeof ProjectSchema>
+
 type FormField = {
   name: keyof ProjectFormProps
   type: string
@@ -34,37 +39,66 @@ const formFields: FormField[] = [
   },
 ]
 
-export function CreateProjectForm({
-  collaborators,
+export function UpdateProjectForm({
+  actualProject,
+  allCollaborators,
 }: {
-  collaborators: Collaborator[]
+  actualProject: ProjectWithCollaborators
+  allCollaborators: Collaborator[]
 }) {
+  const collaborators = actualProject.collaborators
+
   const backendCollaborators = collaborators.filter((collaborator) =>
     collaborator.fieldOfWork.includes('BACKEND'),
   )
+
   const frontendCollaborators = collaborators.filter((collaborator) =>
     collaborator.fieldOfWork.includes('FRONTEND'),
   )
+
   const managerCollaborators = collaborators.filter(
     (collaborator) => collaborator.manager,
+  )
+  const otherCollaborators = collaborators.filter(
+    (collaborator) =>
+      !collaborator.fieldOfWork.includes('BACKEND') &&
+      !collaborator.fieldOfWork.includes('FRONTEND') &&
+      !collaborator.manager,
   )
 
   const router = useRouter()
 
   const methods = useForm<ProjectFormProps>({
     resolver: zodResolver(ProjectSchema),
+    defaultValues: {
+      name: actualProject.name,
+      description: actualProject.description,
+      deadline: new Date(actualProject.deadline),
+      backendCollaborators: backendCollaborators.map(
+        (collaborator) => collaborator.email,
+      ),
+      frontendCollaborators: frontendCollaborators.map(
+        (collaborator) => collaborator.email,
+      ),
+      managerCollaborators: managerCollaborators.map(
+        (collaborator) => collaborator.email,
+      ),
+      collaborators: otherCollaborators.map(
+        (collaborator) => collaborator.email,
+      ),
+      technologies: actualProject.technologies,
+    },
   })
 
   const {
     handleSubmit,
     formState: { errors },
     setError,
-    control,
   } = methods
 
-  async function createProject(data: ProjectFormProps) {
-    const response = await fetch('/api/projects', {
-      method: 'POST',
+  async function updateProject(data: ProjectFormProps) {
+    const response = await fetch(`/api/projects/${actualProject.id}`, {
+      method: 'PUT',
       body: JSON.stringify(data),
     })
     const errorResponse = await response.json()
@@ -77,14 +111,14 @@ export function CreateProjectForm({
       return
     }
 
-    router.push('/dashboard/projects')
+    router.push('/dashboard/projetos')
   }
 
   return (
     <FormProvider {...methods}>
       <Form.Wrapper>
-        <Form.Title>Criar Projeto</Form.Title>
-        <Form.Root onSubmit={handleSubmit(createProject)}>
+        <Form.Title>Editar Projeto</Form.Title>
+        <Form.Root onSubmit={handleSubmit(updateProject)}>
           <Form.Inputs>
             {formFields.map((field) => (
               <Form.Input
@@ -107,29 +141,33 @@ export function CreateProjectForm({
               <Form.FieldArraySelect
                 name="frontendCollaborators"
                 label="Colaboradores Frontend"
-                options={frontendCollaborators.map(
-                  (collaborator) => collaborator.email,
-                )}
+                options={allCollaborators
+                  .filter((collaborator) =>
+                    collaborator.fieldOfWork.includes('FRONTEND'),
+                  )
+                  .map((collaborator) => collaborator.email)}
               />
 
               <Form.FieldArraySelect
                 name="backendCollaborators"
                 label="Colaboradores Backend"
-                options={backendCollaborators.map(
-                  (collaborator) => collaborator.email,
-                )}
+                options={allCollaborators
+                  .filter((collaborator) =>
+                    collaborator.fieldOfWork.includes('BACKEND'),
+                  )
+                  .map((collaborator) => collaborator.email)}
               />
               <Form.FieldArraySelect
                 name="managerCollaborators"
                 label="Gestores"
-                options={managerCollaborators.map(
-                  (collaborator) => collaborator.email,
-                )}
+                options={allCollaborators
+                  .filter((collaborator) => collaborator.manager)
+                  .map((collaborator) => collaborator.email)}
               />
               <Form.FieldArraySelect
                 name="collaborators"
                 label="Outros Colaboradores"
-                options={collaborators
+                options={allCollaborators
                   .filter(
                     (collaborator) =>
                       !collaborator.fieldOfWork.includes('BACKEND') &&
@@ -149,7 +187,7 @@ export function CreateProjectForm({
             </p>
           )}
 
-          <Form.Button>Criar</Form.Button>
+          <Form.Button>Atualizar</Form.Button>
         </Form.Root>
       </Form.Wrapper>
     </FormProvider>

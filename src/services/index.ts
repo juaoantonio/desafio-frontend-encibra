@@ -147,14 +147,53 @@ class projectService {
   async getById(id: number) {
     return await prisma.project.findUnique({
       where: { id },
+      include: {
+        collaborators: true,
+      },
     })
   }
 
   async update(id: number, data: Prisma.ProjectUpdateInput) {
-    return await prisma.project.update({
-      where: { id },
-      data,
-    })
+    const result = ProjectSchema.safeParse(data)
+
+    if (result.success) {
+      const resultData = result.data
+      const {
+        collaborators,
+        backendCollaborators,
+        frontendCollaborators,
+        managerCollaborators,
+      } = resultData
+      const allCollaborators = [
+        ...collaborators,
+        ...backendCollaborators,
+        ...frontendCollaborators,
+        ...managerCollaborators,
+      ]
+
+      return {
+        error: false,
+        project: await prisma.project.update({
+          where: { id },
+          data: {
+            name: resultData.name,
+            deadline: resultData.deadline.toDateString(),
+            description: resultData.description,
+            technologies: resultData.technologies,
+            collaborators: {
+              connect: allCollaborators.map((email) => ({
+                email,
+              })),
+            },
+          },
+        }),
+      }
+    }
+
+    return {
+      error: true,
+      message: result.error.message,
+    }
   }
 
   async delete(id: number) {

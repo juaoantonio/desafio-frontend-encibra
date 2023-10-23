@@ -1,5 +1,5 @@
 import { fetchProjects, isManager } from '@/lib/utils'
-import { Plus } from 'lucide-react'
+import { Edit2, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { ProjectCard } from '@/components/ProjectCard'
 
@@ -27,7 +27,19 @@ export default async function ProjectsPage() {
         {projects.map((project) => (
           <ProjectCard.Root key={project.id}>
             <ProjectCard.Header>
-              <ProjectCard.Title>{project.name}</ProjectCard.Title>
+              <div className="flex items-center gap-4">
+                <ProjectCard.Title>{project.name}</ProjectCard.Title>
+
+                {manager && (
+                  <Link href={`/dashboard/projetos/${project.id}/editar`}>
+                    <Edit2
+                      width={24}
+                      height={24}
+                      className="stroke-slate-500 cursor-pointer"
+                    />
+                  </Link>
+                )}
+              </div>
               <p className="text-sm text-gray-500">Prazo: {project.deadline}</p>
             </ProjectCard.Header>
             <hr />

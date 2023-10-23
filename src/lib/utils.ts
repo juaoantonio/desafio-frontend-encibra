@@ -48,6 +48,24 @@ export async function fetchProjects(): Promise<ProjectWithCollaborators[]> {
   return projects
 }
 
+export async function fetchProjectById(
+  id: number,
+): Promise<ProjectWithCollaborators> {
+  const Cookies = cookies()
+    .getAll()
+    .map((cookie) => `${cookie.name}=${cookie.value}`)
+
+  const response = await fetch(process.env.URL + `/api/projects/${id}/`, {
+    cache: 'no-cache',
+    headers: {
+      Cookie: Cookies.join(';'),
+    },
+  })
+
+  const project = await response.json().then((data) => data.project)
+  return project
+}
+
 export function isManager() {
   const cookieStore = cookies()
   const isManager = !!Number(cookieStore.get('manager')?.value)
