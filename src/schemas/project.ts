@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { CollaboratorSchema } from './collaborator'
 
 export const ProjectSchema = z.object({
   name: z.string(),
@@ -10,4 +9,15 @@ export const ProjectSchema = z.object({
   backendCollaborator: z.number().int().positive(),
   frontendCollaborator: z.number().int().positive(),
   collaborators: z.array(z.unknown()).min(1),
+})
+
+export const updateProjectSchema = z.object({
+  name: z.string().optional(),
+  deadline: z.string().optional(),
+  description: z.string().optional(),
+  technologies: z.array(z.string()).min(1).optional(),
+  projectManager: z.number().int().positive().optional(),
+  backendCollaborator: z.number().int().positive().optional(),
+  frontendCollaborator: z.number().int().positive().optional(),
+  collaborators: z.array(z.unknown()).min(1).optional(),
 })
