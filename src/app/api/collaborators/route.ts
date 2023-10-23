@@ -5,16 +5,7 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams
   const result = getAllCollaboratorsParamsSchema.safeParse(searchParams)
-  const userId = req.cookies.get('id')?.value
-
-  if (!userId) {
-    return NextResponse.json(
-      {
-        message: 'Você precisa estar logado para acessar essa rota',
-      },
-      { status: 401 },
-    )
-  }
+  const userId = req.cookies.get('id')?.value as string
 
   if (!result.success) {
     return NextResponse.json(
