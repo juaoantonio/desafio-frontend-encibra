@@ -12,7 +12,7 @@ export function Delete({ id }: { id: number }) {
     })
 
     if (response.status === 200) {
-      router.push('/dashboard/colaboradores')
+      router.push('/dashboard/projetos')
       router.refresh()
       return
     }
