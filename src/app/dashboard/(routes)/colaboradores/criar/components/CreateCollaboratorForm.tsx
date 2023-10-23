@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CollaboratorSchema } from '@/schemas/collaborator'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
-import { Minus, Plus } from 'lucide-react'
+import { Plus, X } from 'lucide-react'
 
 type CollaboratorFormProps = z.infer<typeof CollaboratorSchema>
 
@@ -153,7 +153,7 @@ export function CreateCollaboratorForm() {
                       className="flex-1"
                     />
                     <button onClick={() => remove(index)} type="button">
-                      <Minus
+                      <X
                         width={24}
                         height={24}
                         className="bg-red-500 stroke-gray-100 rounded-full"
