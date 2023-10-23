@@ -37,7 +37,7 @@ const collaborators: Prisma.CollaboratorCreateInput[] = [
     gender: 'Masculino',
     email: 'charlie.brown@example.com',
     phone: '5555555555',
-    fieldOfWork: ['DEVOPS'],
+    fieldOfWork: ['DEVOPS', 'MANAGEMENT'],
     employmentType: 'CLT',
     manager: true,
     salary: 75000,
@@ -165,19 +165,15 @@ const projects: Prisma.ProjectCreateInput[] = [
     description: 'Descrição do projeto 1',
     deadline: new Date('2023-12-31').toDateString(),
     technologies: ['NodeJS', 'ReactJS', 'React Native'],
-    backendCollaborator: {
-      connect: { email: 'george.wilson@example.com' },
-    },
-    frontendCollaborator: {
-      connect: { email: 'hannah.taylor@example.com' },
-    },
-    projectManager: {
-      connect: { email: 'admin@admin.com' },
-    },
+
     collaborators: {
       connect: [
+        { email: 'edward.anderson@example.com' },
         { email: 'jasmine.white@example.com' },
         { email: 'isaac.harris@example.com' },
+        { email: 'george.wilson@example.com' },
+        { email: 'hannah.taylor@example.com' },
+        { email: 'admin@admin.com' },
       ],
     },
   },
@@ -187,19 +183,47 @@ const projects: Prisma.ProjectCreateInput[] = [
     description: 'Descrição do projeto 2',
     deadline: new Date('2023-12-31').toDateString(),
     technologies: ['NodeJS', 'ReactJS', 'React Native'],
-    backendCollaborator: {
-      connect: { email: 'george.wilson@example.com' },
-    },
-    frontendCollaborator: {
-      connect: { email: 'hannah.taylor@example.com' },
-    },
-    projectManager: {
-      connect: { email: 'charlie.brown@example.com' },
-    },
+
     collaborators: {
       connect: [
         { email: 'jasmine.white@example.com' },
+        { email: 'george.wilson@example.com' },
         { email: 'diana.smith@example.com' },
+        { email: 'hannah.taylor@example.com' },
+        { email: 'charlie.brown@example.com' },
+      ],
+    },
+  },
+
+  {
+    name: 'Projeto 3',
+    description: 'Descrição do projeto 3',
+    deadline: new Date('2023-12-31').toDateString(),
+    technologies: ['NodeJS', 'ReactJS', 'React Native'],
+
+    collaborators: {
+      connect: [
+        { email: 'jasmine.white@example.com' },
+        { email: 'george.wilson@example.com' },
+        { email: 'hannah.taylor@example.com' },
+        { email: 'charlie.brown@example.com' },
+        { email: 'alice.johnson@example.com' },
+      ],
+    },
+  },
+  {
+    name: 'Projeto 4',
+    description: 'Descrição do projeto 4',
+    deadline: new Date('2023-12-31').toDateString(),
+    technologies: ['NodeJS', 'ExpressJS', 'VueJS'],
+
+    collaborators: {
+      connect: [
+        { email: 'jasmine.white@example.com' },
+        { email: 'george.wilson@example.com' },
+        { email: 'diana.smith@example.com' },
+        { email: 'charlie.brown@example.com' },
+        { email: 'fiona.clark@example.com' },
       ],
     },
   },

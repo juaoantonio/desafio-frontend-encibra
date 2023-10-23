@@ -40,24 +40,14 @@ model Collaborator {
   address        String
 
   projects Project[]
-
-  managerProjects  Project[] @relation("Manager Collaborator")
-  backendProjects  Project[] @relation("Backend Collaborator")
-  frontendProjects Project[] @relation("Frontend Collaborator")
 }
 
 model Project {
-  id                     Int          @id @default(autoincrement())
-  name                   String       @unique
-  deadline               String
-  description            String
-  technologies           String[]
-  projectManagerId       Int
-  backendCollaboratorId  Int
-  frontendCollaboratorId Int
-  projectManager         Collaborator @relation("Manager Collaborator", fields: [projectManagerId], references: [id])
-  backendCollaborator    Collaborator @relation("Backend Collaborator", fields: [backendCollaboratorId], references: [id])
-  frontendCollaborator   Collaborator @relation("Frontend Collaborator", fields: [frontendCollaboratorId], references: [id])
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+  deadline     String
+  description  String
+  technologies String[]
 
   collaborators Collaborator[]
 }
