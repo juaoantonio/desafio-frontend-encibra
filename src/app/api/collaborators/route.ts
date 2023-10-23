@@ -3,8 +3,10 @@ import { CollaboratorService } from '@/services'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
-  const searchParams = req.nextUrl.searchParams
-  const result = getAllCollaboratorsParamsSchema.safeParse(searchParams)
+  const searchParams = req.nextUrl.searchParams.get('current')
+  const result = getAllCollaboratorsParamsSchema.safeParse({
+    current: searchParams,
+  })
   const userId = req.cookies.get('id')?.value as string
 
   if (!result.success) {
