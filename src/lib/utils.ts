@@ -5,6 +5,10 @@ type ColllaboratorWithProjects = Collaborator & {
   projects: Project[]
 }
 
+type ProjectWithCollaborators = Project & {
+  collaborators: Collaborator[]
+}
+
 export async function fetchCollaborators(): Promise<
   ColllaboratorWithProjects[]
 > {
@@ -24,6 +28,22 @@ export async function fetchCollaborators(): Promise<
 
   const collaborators = await response.json().then((data) => data.collaborators)
   return collaborators
+}
+
+export async function fetchProjects(): Promise<ProjectWithCollaborators[]> {
+  const Cookies = cookies()
+    .getAll()
+    .map((cookie) => `${cookie.name}=${cookie.value}`)
+
+  const response = await fetch(process.env.URL + '/api/projects', {
+    cache: 'no-cache',
+    headers: {
+      Cookie: Cookies.join(';'),
+    },
+  })
+
+  const projects = await response.json().then((data) => data.projects)
+  return projects
 }
 
 export function isManager() {

@@ -111,7 +111,11 @@ class projectService {
   }
 
   async getAll() {
-    return await prisma.project.findMany()
+    return await prisma.project.findMany({
+      include: {
+        collaborators: true,
+      },
+    })
   }
 
   async getById(id: number) {

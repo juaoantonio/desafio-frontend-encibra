@@ -6,7 +6,7 @@ export function Tags({ tags }: { tags: string[] }) {
         {tags.map((tag) => (
           <span
             key={tag}
-            className="inline-block px-3 py-1 rounded-2xl bg-violet-400 text-violet-950 font-medium capitalize text-sm"
+            className="bg-gray-900 text-white text-xs font-medium py-1 px-2 rounded-lg uppercase"
           >
             {tag.toLocaleLowerCase()}
           </span>
