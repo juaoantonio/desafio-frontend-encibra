@@ -6,18 +6,7 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const result = idParamSchema.safeParse(params)
-
-  if (!result.success) {
-    return NextResponse.json(
-      {
-        message: result.error.message,
-      },
-      { status: 400 },
-    )
-  }
-
-  const { id } = result.data
+  const { id } = params
 
   const project = await ProjectService.getById(+id)
 
