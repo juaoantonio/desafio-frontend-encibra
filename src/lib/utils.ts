@@ -5,7 +5,7 @@ type ColllaboratorWithProjects = Collaborator & {
   projects: Project[]
 }
 
-export async function fecthCollaborators(): Promise<
+export async function fetchCollaborators(): Promise<
   ColllaboratorWithProjects[]
 > {
   const Cookies = cookies()

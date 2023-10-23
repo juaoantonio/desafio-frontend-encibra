@@ -1,3 +1,4 @@
+import { employmentType } from '@prisma/client'
 import { z } from 'zod'
 
 export const CollaboratorSchema = z.object({
@@ -6,14 +7,16 @@ export const CollaboratorSchema = z.object({
   gender: z.string(),
   email: z.string().email(),
   phone: z.string(),
-  fieldOfWork: z.enum([
-    'BACKEND',
-    'FRONTEND',
-    'DEVOPS',
-    'DESIGN',
-    'MANAGEMENT',
-    'REQUIREMENTS',
-  ]),
+  fieldOfWork: z.array(
+    z.enum([
+      'BACKEND',
+      'FRONTEND',
+      'DEVOPS',
+      'DESIGN',
+      'MANAGEMENT',
+      'REQUIREMENTS',
+    ]),
+  ),
   employmentType: z.enum(['CLT', 'PJ']),
   manager: z.boolean().default(false),
   salary: z.coerce.number().min(0),

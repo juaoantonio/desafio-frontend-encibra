@@ -12,13 +12,14 @@ export function SelectInput({
   name,
   options,
   error,
+  className,
   ...props
 }: SelectInputProps) {
   const { register } = useFormContext()
 
   return (
-    <div>
-      <label className="block text-gray-800 font-medium">
+    <div className={className}>
+      <label className={'block text-gray-800 font-medium'}>
         {children}
         <select
           className="block rounded-lg border border-gray-950/10 h-10 w-full px-3 py-2 text-gray-800 focus:outline-none focus:border-gray-950/20 invalid:border-red-500 invalid:ring-red-500 mt-2"
