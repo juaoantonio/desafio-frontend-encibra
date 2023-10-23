@@ -73,7 +73,7 @@ export default async function ProjectsPage() {
               <ProjectCard.Techs techs={project.technologies} />
             </ProjectCard.Section>
 
-            <ProjectCard.Delete id={project.id} />
+            {manager && <ProjectCard.Delete id={project.id} />}
           </ProjectCard.Root>
         ))}
       </div>
