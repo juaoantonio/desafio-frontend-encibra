@@ -1,5 +1,9 @@
 import { prisma } from '@/lib/prisma'
-import { CollaboratorSchema } from '@/schemas/collaborator'
+import {
+  CollaboratorSchema,
+  updateCollaboratorSchema,
+} from '@/schemas/collaborator'
+import { ProjectSchema } from '@/schemas/project'
 import { Prisma } from '@prisma/client'
 
 class collaboratorService {
@@ -29,36 +33,50 @@ class collaboratorService {
     throw new Error(result.error.message)
   }
 
-  async getCollaborators() {
+  async getAll() {
     return await prisma.collaborator.findMany()
   }
 
-  async getCollaboratorById(id: number) {
+  async getById(id: number) {
     return await prisma.collaborator.findUnique({
       where: { id },
     })
   }
 
-  async getCollaboratorByEmail(email: string) {
+  async getByEmail(email: string) {
     return await prisma.collaborator.findUnique({
       where: { email },
     })
   }
 
-  async updateCollaborator(id: number, data: Prisma.CollaboratorUpdateInput) {
-    return await prisma.collaborator.update({
+  async update(id: number, data: Prisma.CollaboratorUpdateInput) {
+    const result = updateCollaboratorSchema.safeParse(data)
+
+    if (!result.success) {
+      return {
+        error: true,
+        message: result.error.message,
+      }
+    }
+
+    const updatedCollaborator = await prisma.collaborator.update({
       where: { id },
       data,
     })
+
+    return {
+      error: false,
+      updatedCollaborator,
+    }
   }
 
-  async deleteCollaborator(id: number) {
+  async delete(id: number) {
     return await prisma.collaborator.delete({
       where: { id },
     })
   }
 
-  async getCollaboratorWithoutCurrent(id: number, projects = false) {
+  async getAllWithoutCurrent(id: number, projects = false) {
     return await prisma.collaborator.findMany({
       where: {
         id: {
@@ -76,28 +94,40 @@ class collaboratorService {
 }
 
 class projectService {
-  async createProject(data: Prisma.ProjectCreateInput) {
-    return await prisma.project.create({ data })
+  async create(data: Prisma.ProjectCreateInput) {
+    const result = ProjectSchema.safeParse(data)
+
+    if (!result.success) {
+      return {
+        error: true,
+        message: result.error.message,
+      }
+    }
+
+    return {
+      error: false,
+      project: await prisma.project.create({ data }),
+    }
   }
 
-  async getProjects() {
+  async getAll() {
     return await prisma.project.findMany()
   }
 
-  async getProjectById(id: number) {
+  async getById(id: number) {
     return await prisma.project.findUnique({
       where: { id },
     })
   }
 
-  async updateProject(id: number, data: Prisma.ProjectUpdateInput) {
+  async update(id: number, data: Prisma.ProjectUpdateInput) {
     return await prisma.project.update({
       where: { id },
       data,
     })
   }
 
-  async deleteProject(id: number) {
+  async delete(id: number) {
     return await prisma.project.delete({
       where: { id },
     })
