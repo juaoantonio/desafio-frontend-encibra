@@ -1,5 +1,4 @@
 import { Prisma, PrismaClient } from '@prisma/client'
-import { emit } from 'process'
 
 const prisma = new PrismaClient()
 
