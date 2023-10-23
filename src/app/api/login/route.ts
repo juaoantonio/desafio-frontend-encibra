@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
   if (result.success) {
     const { email, password } = result.data
-    const collaborator = await CollaboratorService.getCollaboratorByEmail(email)
+    const collaborator = await CollaboratorService.getByEmail(email)
 
     if (collaborator?.password === password) {
       headers.append('Set-Cookie', `id=${collaborator.id}; Path=/; HttpOnly`)
