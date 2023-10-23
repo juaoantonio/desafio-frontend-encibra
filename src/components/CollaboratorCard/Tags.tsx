@@ -1,7 +1,16 @@
-export function Tags({ tags }: { tags: string[] }) {
+export function Tags({
+  tags,
+  title = true,
+}: {
+  tags: string[]
+  title?: boolean
+}) {
   return (
     <div>
-      <p className="font-medium text-gray-900 mb-2">Áreas de Atuação:</p>
+      {title && (
+        <p className="font-medium text-gray-900 mb-2">Áreas de Atuação:</p>
+      )}
+
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (
           <span

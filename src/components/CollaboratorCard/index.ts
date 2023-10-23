@@ -4,6 +4,7 @@ import { Tags } from './Tags'
 import { Contact } from './Contact'
 import { Button } from './Button'
 import { Projects } from './Projects'
+import { Delete } from './Delete'
 
 export const CollaboratorCard = {
   Root,
@@ -12,4 +13,5 @@ export const CollaboratorCard = {
   Contact,
   Button,
   Projects,
+  Delete,
 }

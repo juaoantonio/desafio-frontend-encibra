@@ -66,7 +66,9 @@ export async function fetchProjectById(
   return project
 }
 
-export async function fetchCollaboratorById(id: number): Promise<Collaborator> {
+export async function fetchCollaboratorById(
+  id: number,
+): Promise<ColllaboratorWithProjects> {
   const Cookies = cookies()
     .getAll()
     .map((cookie) => `${cookie.name}=${cookie.value}`)

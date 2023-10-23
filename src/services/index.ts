@@ -40,6 +40,9 @@ class collaboratorService {
   async getById(id: number) {
     return await prisma.collaborator.findUnique({
       where: { id },
+      include: {
+        projects: true,
+      },
     })
   }
 

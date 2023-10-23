@@ -4,12 +4,13 @@ import Link from 'next/link'
 
 type ProjectsProps = {
   projects: Project[]
+  title?: boolean
 }
 
-export function Projects({ projects }: ProjectsProps) {
+export function Projects({ projects, title = true }: ProjectsProps) {
   return (
     <div>
-      <p className="font-medium text-gray-900 mb-2">Projetos:</p>
+      {title && <p className="font-medium text-gray-900 mb-2">Projetos:</p>}
 
       <div className="space-y-2">
         {projects.length > 0 ? (
