@@ -25,18 +25,19 @@ enum employmentType {
 }
 
 model Collaborator {
-  id             Int              @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   name           String
   age            Int
   gender         String
-  email          String           @unique
+  email          String         @unique
   phone          String
   fieldOfWork    fieldsOfWork[]
-  employmentType employmentType[]
+  employmentType employmentType
   manager        Boolean
   salary         Float
   password       String
   imgUrl         String
+  address        String
 
   projects Project[]
 
