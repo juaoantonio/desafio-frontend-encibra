@@ -1,14 +1,15 @@
 import { z } from 'zod'
+import { CollaboratorSchema } from './collaborator'
 
 export const ProjectSchema = z.object({
   name: z.string(),
-  deadline: z.string(),
+  deadline: z.coerce.date().min(new Date()),
   description: z.string(),
   technologies: z.array(z.string()).min(1),
-  projectManager: z.number().int().positive(),
-  backendCollaborator: z.number().int().positive(),
-  frontendCollaborator: z.number().int().positive(),
-  collaborators: z.array(z.unknown()).min(1),
+  managerCollaborators: z.array(z.string().email()).min(1),
+  backendCollaborators: z.array(z.string().email()).min(1),
+  frontendCollaborators: z.array(z.string().email()).min(1),
+  collaborators: z.array(z.string().email()),
 })
 
 export const updateProjectSchema = z.object({
@@ -16,8 +17,8 @@ export const updateProjectSchema = z.object({
   deadline: z.string().optional(),
   description: z.string().optional(),
   technologies: z.array(z.string()).min(1).optional(),
-  projectManager: z.number().int().positive().optional(),
-  backendCollaborator: z.number().int().positive().optional(),
-  frontendCollaborator: z.number().int().positive().optional(),
-  collaborators: z.array(z.unknown()).min(1).optional(),
+  managerCollaborators: z.array(z.string().email()).min(1).optional(),
+  backendCollaborators: z.array(z.string().email()).min(1).optional(),
+  frontendCollaborators: z.array(z.string().email()).min(1).optional(),
+  collaborators: z.array(z.string().email()).min(1).optional(),
 })

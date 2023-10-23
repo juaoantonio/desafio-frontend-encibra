@@ -9,15 +9,17 @@ type ProjectWithCollaborators = Project & {
   collaborators: Collaborator[]
 }
 
-export async function fetchCollaborators(): Promise<
-  ColllaboratorWithProjects[]
-> {
+export async function fetchCollaborators(
+  current: boolean = false,
+): Promise<ColllaboratorWithProjects[]> {
   const Cookies = cookies()
     .getAll()
     .map((cookie) => `${cookie.name}=${cookie.value}`)
 
+  const currentParam = current ? 1 : 0
+
   const response = await fetch(
-    process.env.URL + '/api/collaborators?current=0',
+    process.env.URL + `/api/collaborators?current=${currentParam}`,
     {
       cache: 'no-cache',
       headers: {

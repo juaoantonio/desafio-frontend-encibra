@@ -97,16 +97,42 @@ class projectService {
   async create(data: Prisma.ProjectCreateInput) {
     const result = ProjectSchema.safeParse(data)
 
-    if (!result.success) {
+    if (result.success) {
+      const resultData = result.data
+      const {
+        collaborators,
+        backendCollaborators,
+        frontendCollaborators,
+        managerCollaborators,
+      } = resultData
+      const allCollaborators = [
+        ...collaborators,
+        ...backendCollaborators,
+        ...frontendCollaborators,
+        ...managerCollaborators,
+      ]
+
       return {
-        error: true,
-        message: result.error.message,
+        error: false,
+        project: await prisma.project.create({
+          data: {
+            name: resultData.name,
+            deadline: resultData.deadline.toDateString(),
+            description: resultData.description,
+            technologies: resultData.technologies,
+            collaborators: {
+              connect: allCollaborators.map((email) => ({
+                email,
+              })),
+            },
+          },
+        }),
       }
     }
 
     return {
-      error: false,
-      project: await prisma.project.create({ data }),
+      error: true,
+      message: result.error.message,
     }
   }
 

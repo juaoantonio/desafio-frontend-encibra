@@ -9,7 +9,7 @@ export const loginSchema = z.object({
 })
 
 export const getAllCollaboratorsParamsSchema = z.object({
-  current: z.coerce.number().int().min(0).max(1).optional().default(0),
+  current: z.coerce.number().int().min(0).max(1).default(0),
 })
 
 export const idParamSchema = z.object({

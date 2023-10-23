@@ -6,6 +6,8 @@ import { Title } from './Title'
 import { Button } from './Button'
 import { SelectInput } from './SelectInput'
 import { CheckboxInput } from './Checkbox'
+import { FieldArraySelect } from './FieldArraySelect'
+import { FieldArrayInput } from './FieldArrayInput'
 
 export const Form = {
   Wrapper,
@@ -16,4 +18,6 @@ export const Form = {
   Button,
   SelectInput,
   CheckboxInput,
+  FieldArraySelect,
+  FieldArrayInput,
 }
