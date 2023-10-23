@@ -10,7 +10,7 @@ export default async function ColaboradoresPage() {
 
   return (
     <main className="mx-auto max-w-7xl py-10 px-5">
-      <div className="mb-10 flex items-center justify-between">
+      <div className="mb-10 flex items-center justify-between flex-wrap gap-4">
         <h1 className="text-gray-950 font-semibold text-3xl">Colaboradores</h1>
 
         {manager && (

@@ -3,7 +3,7 @@ import { ActiveLink } from './ActiveLink'
 
 export function Nav() {
   return (
-    <nav className="flex flex-col gap-10 items-center">
+    <nav className="flex min-[550px]:flex-col gap-10 items-center">
       <ActiveLink href="/dashboard" exact>
         <Home className="stroke-gray-50" width={32} height={32} />
       </ActiveLink>

@@ -9,7 +9,7 @@ export default async function ProjectsPage() {
 
   return (
     <main className="mx-auto max-w-7xl py-10 px-5">
-      <div className="mb-10 flex items-center justify-between">
+      <div className="mb-10 flex items-center justify-between flex-wrap gap-4">
         <h1 className="text-gray-950 font-semibold text-3xl">Projetos</h1>
 
         {manager && (
@@ -68,10 +68,12 @@ export default async function ProjectsPage() {
                   />
                 ))}
             </ProjectCard.Section>
-            <hr />
-            <ProjectCard.Button href={`/dashboard/projetos/${project.id}`}>
-              Ver detalhes
-            </ProjectCard.Button>
+
+            <ProjectCard.Section title="Tecnologias">
+              <ProjectCard.Techs techs={project.technologies} />
+            </ProjectCard.Section>
+
+            <ProjectCard.Delete id={project.id} />
           </ProjectCard.Root>
         ))}
       </div>

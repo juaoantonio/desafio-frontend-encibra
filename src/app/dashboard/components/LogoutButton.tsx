@@ -14,7 +14,7 @@ export function LogOutButton() {
   }
 
   return (
-    <button onClick={handleLogOut}>
+    <button onClick={handleLogOut} className="p-3">
       <LogOut height={32} width={32} className="stroke-gray-50" />
     </button>
   )
