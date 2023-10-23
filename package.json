@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "cp ./.env-sample ./.env && docker compose up -d && next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && npx prisma db push --force-reset && npx prisma db seed && next build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install"
