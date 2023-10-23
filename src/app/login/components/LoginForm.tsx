@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema } from '@/schemas'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 type LoginFormValues = z.infer<typeof loginSchema>
 
@@ -17,7 +18,7 @@ export function LoginForm() {
 
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitted, isSubmitSuccessful },
     setError,
   } = methods
 
@@ -69,7 +70,12 @@ export function LoginForm() {
               {errors.root?.message}
             </p>
           )}
-          <Form.Button>Entrar</Form.Button>
+
+          {isSubmitted || isSubmitSuccessful ? (
+            <Form.Button disabled>Carregando...</Form.Button>
+          ) : (
+            <Form.Button>Entrar</Form.Button>
+          )}
         </Form.Root>
       </Form.Wrapper>
     </FormProvider>
