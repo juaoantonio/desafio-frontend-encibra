@@ -2,7 +2,9 @@
 
 Este documento descreve o projeto de desenvolvimento de uma plataforma de Perfil de Colaboradores para uma empresa de tecnologia, atendendo às Regras de Negócio e Requisitos Técnicos definidos. A plataforma tem como objetivo organizar perfis de colaboradores em diversas áreas de atuação e permitir o acesso, gestão e alocação de colaboradores em projetos. O desenvolvimento será realizado utilizando React/Next.js (Versão 13).
 
-Acesse o projeto em produção [aqui](https://https://desafio-encibra.joaobarbosa.dev.br/).
+Acesse o projeto em produção [aqui](https://desafio-encibra.joaobarbosa.dev.br/).
+
+![Design Inicial](/design.png)
 
 ## Iniciando o projeto localmente
 
