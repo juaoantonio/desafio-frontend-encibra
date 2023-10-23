@@ -31,6 +31,7 @@ export function LoginForm() {
     })
 
     if (response.redirected) {
+      router.refresh()
       router.push(response.url)
       return
     }
