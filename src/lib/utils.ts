@@ -19,7 +19,7 @@ export async function fetchCollaborators(
   const currentParam = current ? 1 : 0
 
   const response = await fetch(
-    process.env.URL + `/api/collaborators?current=${currentParam}`,
+    process.env.HOST + `/api/collaborators?current=${currentParam}`,
     {
       cache: 'no-cache',
       headers: {
@@ -37,7 +37,7 @@ export async function fetchProjects(): Promise<ProjectWithCollaborators[]> {
     .getAll()
     .map((cookie) => `${cookie.name}=${cookie.value}`)
 
-  const response = await fetch(process.env.URL + '/api/projects', {
+  const response = await fetch(process.env.HOST + '/api/projects', {
     cache: 'no-cache',
     headers: {
       Cookie: Cookies.join(';'),
@@ -55,7 +55,7 @@ export async function fetchProjectById(
     .getAll()
     .map((cookie) => `${cookie.name}=${cookie.value}`)
 
-  const response = await fetch(process.env.URL + `/api/projects/${id}/`, {
+  const response = await fetch(process.env.HOST + `/api/projects/${id}/`, {
     cache: 'no-cache',
     headers: {
       Cookie: Cookies.join(';'),
@@ -73,7 +73,7 @@ export async function fetchCollaboratorById(
     .getAll()
     .map((cookie) => `${cookie.name}=${cookie.value}`)
 
-  const response = await fetch(process.env.URL + `/api/collaborators/${id}/`, {
+  const response = await fetch(process.env.HOST + `/api/collaborators/${id}/`, {
     cache: 'no-cache',
     headers: {
       Cookie: Cookies.join(';'),
