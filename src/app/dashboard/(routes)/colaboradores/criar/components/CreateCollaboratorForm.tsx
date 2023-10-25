@@ -102,6 +102,7 @@ export function CreateCollaboratorForm() {
       return
     }
 
+    router.refresh()
     router.push('/dashboard/colaboradores')
   }
 

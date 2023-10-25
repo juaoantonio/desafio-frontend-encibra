@@ -111,6 +111,7 @@ export function UpdateProjectForm({
       return
     }
 
+    router.refresh()
     router.push('/dashboard/projetos')
   }
 

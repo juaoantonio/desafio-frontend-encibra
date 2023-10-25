@@ -77,6 +77,7 @@ export function CreateProjectForm({
       return
     }
 
+    router.refresh()
     router.push('/dashboard/projects')
   }
 
