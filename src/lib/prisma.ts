@@ -1,7 +1,8 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient as PrismaClientEdge } from '@prisma/client/edge'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
 const prismaClientSingleton = () => {
-  return new PrismaClient()
+  return new PrismaClientEdge().$extends(withAccelerate())
 }
 
 type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
