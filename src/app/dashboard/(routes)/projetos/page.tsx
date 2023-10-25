@@ -69,6 +69,8 @@ export default async function ProjectsPage() {
                 ))}
             </ProjectCard.Section>
 
+            <hr />
+
             <ProjectCard.Section title="Tecnologias">
               <ProjectCard.Techs techs={project.technologies} />
             </ProjectCard.Section>

@@ -39,10 +39,12 @@ export async function ProjectsSlide() {
                   />
                 ))}
             </ProjectCard.Section>
+
             <hr />
-            <ProjectCard.Button href={`/dashboard/projetos/${project.id}`}>
-              Ver detalhes
-            </ProjectCard.Button>
+
+            <ProjectCard.Section title="Tecnologias">
+              <ProjectCard.Techs techs={project.technologies} />
+            </ProjectCard.Section>
           </ProjectCard.Root>
         ))}
       </div>
