@@ -6,7 +6,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "scripts": {
-    "dev": "cp ./.env-sample ./.env && docker compose up -d && prisma db seed && next dev",
+    "dev": "cp ./.env-sample ./.env && docker compose up -d && prisma generate && npx prisma db push --force-reset && npx prisma db seed && next dev",
     "dev:without-seed": "cp ./.env-sample ./.env && docker compose up -d && next dev",
     "build": "prisma generate && npx prisma db push --force-reset && npx prisma db seed && next build",
     "start": "next start",
