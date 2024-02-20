@@ -4,6 +4,17 @@ Este documento descreve o projeto de desenvolvimento de uma plataforma de Perfil
 
 Acesse o projeto em produção [aqui](https://desafio-encibra.joaobarbosa.dev.br/).
 
+Para fazer *login*, você pode utilizar os seguintes dados:
+
+- Admin (Gestor):
+
+  - Email: admin@admin.com
+  - Senha: admin
+
+- Alice Johnson (Colaboradora):
+  - Email: alice.johnson@example.com
+  - Senha: senha123
+
 ![Design Inicial](/design.png)
 
 ## Iniciando o projeto localmente
@@ -33,17 +44,6 @@ Se não quiser que os dados sejam reinseridos no banco de dados, você pode exec
 ```bash
 $ npm run dev:without-seed
 ```
-
-Para fazer login, você pode utilizar os seguintes dados:
-
-- Admin (Gestor):
-
-  - Email: admin@admin.com
-  - Senha: admin
-
-- Alice Johnson (Colaboradora):
-  - Email: alice.johnson@example.com
-  - Senha: senha123
 
 ## Documentação
 
