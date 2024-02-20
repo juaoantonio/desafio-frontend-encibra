@@ -9,7 +9,7 @@ Para fazer *login*, você pode utilizar os seguintes dados:
 - Admin (Gestor):
 
   - Email: admin@admin.com
-  - Senha: admin
+  - Senha: adminadmin
 
 - Alice Johnson (Colaboradora):
   - Email: alice.johnson@example.com
